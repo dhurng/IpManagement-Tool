@@ -1,0 +1,65 @@
+<project name="PortableIPMonitor" default="install" basedir=".">
+	<property name="src" location="src" />
+	<property name="web.dir" location="WebContent" />
+	<property name="build" location="${web.dir}/WEB-INF/classes" />
+	<property name="lib" location="${web.dir}/WEB-INF/lib" />
+	<property name="install" location="install" />
+	<property name="warname" value="PortableIPMonitor.war" />
+	
+	<path id="path.compile">
+		<pathelement path="${classpath}" />
+		<fileset dir="${lib}" includes="**/*.jar"/>
+	</path>
+
+	<target name="init" depends="clean">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+		<mkdir dir="${install}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${install}" />
+		<delete dir="${build}" />
+	</target>
+
+	<target name="install" depends="init">
+		<!-- Install has the following steps:
+		     1. Compile the source code
+		     2. Create the war file and put it in install
+		-->
+			
+
+		<javac srcdir="${src}" destdir="${build}" source="1.7" target="1.7">
+			<classpath refid="path.compile" />
+			<exclude name="**/log4j.properties"/>
+			<exclude name="**/.copyarea.db"/>
+			<exclude name="**/*.contrib*"/>
+			<exclude name="**/*.bak*"/>
+			<exclude name="**/*.keep"/>
+		</javac>
+		
+		<copy todir="${build}">
+			<fileset dir="${src}">
+				<exclude name="**/*.java"/>
+				<exclude name="**/*.class"/>
+				<exclude name="**/log4j.properties"/>
+				<exclude name="**/.copyarea.db"/>
+				<exclude name="**/*.contrib*"/>
+				<exclude name="**/*.bak*"/>
+				<exclude name="**/*.keep"/>
+			</fileset>
+		</copy>
+		
+		<war destfile = "${install}/${warname}" webxml = "${web.dir}/WEB-INF/web.xml">
+		   <fileset dir = "${web.dir}">
+		      <include name = "**/*.*"/>
+		   	  <exclude name = "WEB-INF/lib/javax.servlet_2.5.0.v201103041518.jar"/>
+		   </fileset>
+		  
+		   <classes dir = "${build}"/>
+		</war>
+
+	</target>
+</project>

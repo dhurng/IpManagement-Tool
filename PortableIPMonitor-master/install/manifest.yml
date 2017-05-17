@@ -1,0 +1,17 @@
+---
+# this manifest deploys dashDB Biller application
+applications:
+- name: PortableIPMonitor
+  memory: 768M
+  instances: 1
+  host: portableipmonitor
+  domain: mybluemix.net
+  path: PortableIPMonitor.war
+  env:
+    cloudant_user: dhurng
+    cloudant_pass: passw0rd
+    authentication_user: admin
+    authentication_password: password
+    JBP_CONFIG_IBMJDK: "version: 1.7.+"
+    JBP_CONFIG_LIBERTY: "app_archive: {features: [jaxrs-1.1]}"
+    IBM_JAVA_OPTIONS: "-Dhttps.protocols=TLSv1.1,TLSv1.2"
