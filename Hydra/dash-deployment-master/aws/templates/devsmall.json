@@ -1,0 +1,121 @@
+{
+    "DryRun": false, 
+    "ImageId": "&IMAGE&",
+    "MinCount": 1, 
+    "MaxCount": 1, 
+    "KeyName": "&KEYNAME&", 
+    "SecurityGroupIds": [
+        "&SECURITYGROUP&"
+    ], 
+    "InstanceType": "r3.8xlarge", 
+    "BlockDeviceMappings": [
+        {
+            "VirtualName": "xvda1", 
+            "DeviceName": "/dev/sda1", 
+            "Ebs": {
+                "VolumeSize": 200, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2" 
+            } 
+        },
+        {
+            "VirtualName": "xvdb",
+            "DeviceName": "/dev/xvdb",
+            "Ebs": {
+                "VolumeSize":  100,
+                "DeleteOnTermination": true,
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvdc", 
+            "DeviceName": "/dev/xvdc", 
+            "Ebs": {
+                "VolumeSize":  4000, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2" 
+            } 
+        },
+        {
+            "VirtualName": "xvdd", 
+            "DeviceName": "/dev/xvdd", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvde", 
+            "DeviceName": "/dev/xvde", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvdf", 
+            "DeviceName": "/dev/xvdf", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvdg", 
+            "DeviceName": "/dev/xvdg", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvdh", 
+            "DeviceName": "/dev/xvdh", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvdi", 
+            "DeviceName": "/dev/xvdi", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvdj", 
+            "DeviceName": "/dev/xvdj", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        },
+        {
+            "VirtualName": "xvdk", 
+            "DeviceName": "/dev/xvdk", 
+            "Ebs": {
+                "VolumeSize": 350, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2"
+            }
+        }
+    ], 
+    "SubnetId": "&SUBNET&", 
+    "NetworkInterfaces": [
+        {
+            "DeviceIndex": 0, 
+            "DeleteOnTermination": true, 
+            "AssociatePublicIpAddress": true
+        }
+    ], 
+    "EbsOptimized": false
+}

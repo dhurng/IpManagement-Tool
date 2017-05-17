@@ -1,0 +1,192 @@
+#!/usr/bin/env bash
+
+################################################################
+#
+_mpHelp()
+{
+    declare rc=0
+    echo "
+Usage managePip -F -a <action> [-p pip]  [-f pipFile] [-s startPip -c numPip] [-r pipRecord]
+
+Actions
+    listAllPips       - List the PIP directory
+    listPipDetails    - List the PIP contents
+    backupPipDir      - not implemented
+    mkPipRecord       - create the record for each pip in the pip list
+    rmPipRecord       - Remove the record for each pip in the pip list
+    updatePipRecord   - Update the record with the [-r pipRecord] input
+
+-F Force write action to occur
+
+-p pip                - Add the pip to the pip list
+-f pipFile            - Add the contents of the pip file to the pip list
+-s startPip -c numPip - Add the pip range to the pip list
+
+-r pipRecord          - Used by updatePipRecord - use with caution!!!!
+
+managePip.test ca be used to a) run verification test and b) provides examples of invocation
+
+"
+    if [[ -n "$1" ]]; then
+        rc=$1
+        shift
+        echo "$@"
+    fi
+    exit $rc
+}
+
+################################################################
+#
+setAction()
+{
+
+    case $1 in
+#        getAllPips)       action=$1 ;;
+        listAllPips)      action=$1 ;;
+        listPipDetails)   action=$1 ;;
+#        echoPipRecord)    action=$1 ;;
+#        getPipRecord)     action=$1 ;;
+        backupPipDir)     action=$1 ;;
+        mkPipRecord)      action=$1 ;;
+        rmPipRecord)      action=$1 ;;
+        updatePipRecord)  action=$1 ;;
+
+        *) _mpHelp 1 "FATAL $1 is not a valid action" ;;
+    esac
+}
+################################################################
+#
+loadPipFile()
+{
+    local pipFile=$1
+    if [[ -z $pipFile ]]; then
+        _mpHelp 2 "FATAL loadPipFile: No input"
+    fi
+    if [[ ! -f $pipFile ]]; then
+        _mpHelp 3 "FATAL loadPipFile: $pipFile does not exist"
+    fi
+    PIP_LIST="${PIP_LIST} $(cat $pipFile | awk '{print $1}' | tr '\n' ' ')"
+    echo "PIP_LIST='$PIP_LIST'"
+
+}
+
+################################################################
+#
+setPipRange()
+{
+    if [[ -z "$startIp" ]]; then
+        _mpHelp 4 "FATAL setPipRange: You must specify -s <startPip> before -r <range>"
+    fi
+    local subNet=$(echo $startIp | cut -d '.' -f 1-3)
+    local nextIp=$(echo $startIp | cut -d '.' -f 4)
+    local range=$1
+    if (( verbose )); then
+        echo "subNet=$subNet nextIp=$nextIp range=$range"
+    fi
+    for (( num = 0; num < range; num += 1 )); do
+        if (( nextIp > 254 )); then
+            _mpHelp 5 "FATAL setPipRange: nextIp = $nextIp"
+        fi
+        PIP_LIST="${PIP_LIST} ${subNet}.${nextIp}"
+        (( nextIp += 1 ))
+    done
+    startIp="" # Reset for next range
+}
+################################################################
+#
+# main()
+{
+    typeset opt=""
+    typeset OPTARG=""
+    typeset shellOpts=""
+    typeset -i runRoot=0
+    typeset -i OPTIND=1
+    declare SSH_ARGS=''
+    declare SSH_USER=root
+    declare SSH_USER=$USER
+
+    declare action=""
+    declare startIp=""
+    declare ipRange=0 # Number of IP to set
+    declare PIP_LIST=""
+    declare PIP_RECORD=""
+
+    SSH_ARGS="${SSH_ARGS} -o CheckHostIP=no"
+    SSH_ARGS="${SSH_ARGS} -o StrictHostKeyChecking=no"
+#    SSH_ARGS="${SSH_ARGS} -o UserKnownHostsFile=/dev/null"
+    SSH_ARGS="${SSH_ARGS} -o ServerAliveInterval=30"
+    SSH_ARGS="${SSH_ARGS} -o ControlMaster=auto"
+    SSH_ARGS="${SSH_ARGS} -o KbdInteractiveAuthentication=no"
+    SSH_ARGS="${SSH_ARGS} -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey"
+    SSH_ARGS="${SSH_ARGS} -o PasswordAuthentication=no "
+    SSH_ARGS="${SSH_ARGS} -o ConnectTimeout=10"
+#    SSH_ARGS="${SSH_ARGS} "
+#    SSH_ARGS="${SSH_ARGS} "
+
+    if [[ -z "$HOSTIP" ]]; then
+        if [[ -n "${MASTER_VIP}" ]]; then
+            HOSTIP=${MASTER_VIP}
+        else
+            _mpHelp t  "MASTER_VIP is not set - Please initialize the cluster abstraction"
+        fi
+    fi
+
+    while getopts a:f:Fhp:c:r:s:u:xd opt
+    do
+        case $opt in
+            # DO NOT FORGET SEIMICOLONS
+	    a) setAction $OPTARG ;;
+            c) setPipRange "$OPTARG" ;; #Count of ips
+            d) shellOpts="${shellOpts} -d" ;;
+            f) loadPipFile $OPTARG ;;
+            h) _mpHelp ;;
+            F) shellOpts="${shellOpts} -F" ;;
+            p) PIP_LIST="${PIP_LIST} $OPTARG" ;;
+            r) PIP_RECORD="$OPTARG" ;;
+            s) startIp="$OPTARG" ;;
+            u) SSH_USER="$OPTARG" ;;
+	    x) set -x ; shellOpts="$shellOpts -x" ;; # Trace everything
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # This is an example of passing in additional arguments from hit
+    if [[ -n "$1" ]]; then
+        shellOpts="$shellOpts $@"
+    fi
+
+    if [[ -z "$action" ]]; then
+        _mpHelp 7 "Fatal you must specify -a <action>"
+    fi
+
+    # Prepare the argument string for the target script
+    shellOpts="${shellOpts} -a ${action}"
+    if [[ -n "${PIP_LIST}" ]]; then
+        shellOpts="${shellOpts} -p '${PIP_LIST}'"
+    fi
+    if [[ -n "${PIP_RECORD}" ]]; then
+        shellOpts="${shellOpts} -r '${PIP_RECORD}'"
+    fi
+    if (( verbose )); then
+        echo "shelOpts=$shellOpts"
+    fi
+#exit
+    # Default timeout is 20 seconds - override with export MAXTIME=<seconds>
+    # The timeoust should be adjusted to compensate for the longest run time + 10 seconds
+    export MAXTIME=${MAXTIME:=20}
+
+    timeout $MAXTIME scp ${SSH_ARGS} $(dirname $0)/managePip.sh  ${SSH_USER}@$HOSTIP:/tmp/.
+    rc=$?
+    if (( rc == 124 )); then
+        echo "FATAL: timeout while copying managePip.sh to $HOSTIP"
+    elif (( rc )); then
+        echo "FATAL: Error $rc copying managePip.sh to $HOSTIP"
+    fi
+
+    timeout $MAXTIME ssh ${SSH_ARGS} ${SSH_USER}@$HOSTIP bash /tmp/managePip.sh $shellOpts
+    if (( rc == 124 )); then
+        echo "FATAL: timeout while executing managePip.sh on $HOSTIP"
+    elif (( rc )); then
+        echo "FATAL: Error $rc executing managePip.sh on $HOSTIP"
+    fi
+}

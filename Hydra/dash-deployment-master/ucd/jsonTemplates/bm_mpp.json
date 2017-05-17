@@ -1,0 +1,115 @@
+      {
+         "packageId":251,
+         "imageTemplateId":721781,
+         "storageGroups":[
+
+         ],
+         "hardware":[
+            {
+
+            }
+         ],
+         "complexType":"SoftLayer_Container_Product_Order_Hardware_Server",
+         "prices":[
+            {
+               "UCDdescription":"Dual Processor Octo Core Xeon 2690 - 2.60GHz (Haswell Bridge)",
+               "id":50659
+            },
+            {
+               "UCDdescription":"256 GB DDR3 1333",
+               "id":49447
+            },
+            {
+               "UCDdescription":"Non RAID Disk Controller",
+               "id":141949
+            },
+            {
+               "UCDdescription":"1.00 TB SATA II",
+               "id":49811
+            },
+            {
+               "UCDdescription":"800 GB SSD",
+               "id":50143
+            },
+            {
+               "UCDdescription":"1.00 TB SATA II",
+               "id":49811
+            },
+            {
+               "UCDdescription":"800 GB SSD",
+               "id":50143
+            },
+            {
+               "UCDdescription":"1.00 TB SATA II",
+               "id":49811
+            },
+            {
+               "UCDdescription":"800 GB SSD",
+               "id":50143
+            },
+            {
+               "UCDdescription":"1.00 TB SATA II",
+               "id":49811
+            },
+            {
+               "UCDdescription":"800 GB SSD",
+               "id":50143
+            },
+            {
+               "UCDdescription":"1.00 TB SATA II",
+               "id":49811
+            },
+            {
+               "UCDdescription":"800 GB SSD",
+               "id":50143
+            },
+            {
+               "UCDdescription":"1.00 TB SATA II",
+               "id":49811
+            },
+            {
+               "UCDdescription":"800 GB SSD",
+               "id":50143
+            },
+            {
+               "UCDdescription":"500 GB Bandwidth",
+               "id":50359
+            },
+            {
+               "UCDdescription":"10 Gbps Public & Private Network Uplinks",
+               "id":27597
+            },
+            {
+               "UCDdescription":"Reboot / KVM over IP",
+               "id":25014
+            },
+            {
+               "UCDdescription":"1 IP Address",
+               "id":34807
+            },
+            {
+               "UCDdescription":"Redundant Power Supply",
+               "id":50223
+            },
+            {
+               "UCDdescription":"Host Ping and TCP Service Monitoring",
+               "id":34241
+            },
+            {
+               "UCDdescription":"Email and Ticket",
+               "id":32500
+            },
+            {
+               "UCDdescription":"Automated Reboot from Monitoring",
+               "id":34996
+            },
+            {
+               "UCDdescription":"Unlimited SSL VPN Users & 1 PPTP VPN User per account",
+               "id":33483
+            },
+            {
+               "UCDdescription":"Nessus Vulnerability Assessment & Reporting",
+               "id":35310
+            }
+         ]
+      }

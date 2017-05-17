@@ -1,0 +1,47 @@
+      {
+         "operatingSystemReferenceCode" : "CENTOS_6_64",
+         "hourlyBillingFlag" : true,
+         "blockDevices" : [
+            {
+               "diskImage" : {
+                  "capacity" : "25"
+               },
+               "device" : 0
+            },
+            {
+               "diskImage" : {
+                  "capacity" : "10"
+               },
+               "device" : 2
+            },
+            {
+               "diskImage" : {
+                  "capacity" : "10"
+               },
+               "device" : 3
+            },
+            {
+               "diskImage" : {
+                  "capacity" : "10"
+               },
+               "device" : 4
+            },
+            {
+               "diskImage" : {
+                  "capacity" : "10"
+               },
+               "device" : 5
+            }
+         ],
+         "startCpus" : "16",
+         "localDiskFlag" : false,
+         "maxMemory" : "32768",
+         "networkComponents" : [
+            {
+               "maxSpeed" : "100"
+            }
+         ],
+         "privateNetworkOnlyFlag" : false,
+         "dedicatedAccountHostOnlyFlag" : false
+      }
+

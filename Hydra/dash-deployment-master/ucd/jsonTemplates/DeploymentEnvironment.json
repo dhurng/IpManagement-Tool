@@ -1,0 +1,8 @@
+{
+  "application": "dashDB",
+  "baseResource": "/CDS dashDB",
+  "blueprint": "toolserver",
+  "color": "660033",
+  "description": "Deployment Environment for dashDB",
+  "name": "&NAME&"
+}

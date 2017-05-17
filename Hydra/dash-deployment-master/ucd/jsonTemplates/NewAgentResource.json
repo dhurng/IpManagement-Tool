@@ -1,0 +1,6 @@
+{
+  "agent": "&AGENTID&",
+  "description": "Bluemix Services Common Toolserver Agent",
+  "name": "",
+  "parent": "/CDS dashDB/&NAME&"
+}

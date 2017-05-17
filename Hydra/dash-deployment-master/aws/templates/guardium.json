@@ -1,0 +1,31 @@
+{
+    "DryRun": false, 
+    "ImageId": "&IMAGE&",
+    "MinCount": 1, 
+    "MaxCount": 1, 
+    "KeyName": "&KEYNAME&", 
+    "SecurityGroupIds": [
+        "&SECURITYGROUP&"
+    ], 
+    "InstanceType": "m3.xlarge", 
+    "BlockDeviceMappings": [
+        {
+            "VirtualName": "xvda1", 
+            "DeviceName": "/dev/sda1", 
+            "Ebs": {
+                "VolumeSize": 100, 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2" 
+            } 
+        }
+    ], 
+    "SubnetId": "&SUBNET&", 
+    "NetworkInterfaces": [
+        {
+            "DeviceIndex": 0, 
+            "DeleteOnTermination": true, 
+            "AssociatePublicIpAddress": true
+        }
+    ], 
+    "EbsOptimized": false
+}

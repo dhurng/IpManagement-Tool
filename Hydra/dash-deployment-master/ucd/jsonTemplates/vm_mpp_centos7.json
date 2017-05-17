@@ -1,0 +1,16 @@
+{
+"hourlyBillingFlag" : true,
+"startCpus" : "16",
+"localDiskFlag" : false,
+"maxMemory" : "32768",
+"networkComponents" : [
+{
+"maxSpeed" : "1000"
+}
+],
+"blockDeviceTemplateGroup" : {
+"globalIdentifier" : "89bc8b65-f7d5-4d74-a10d-2fc4f4795c2f"
+},
+"privateNetworkOnlyFlag" : false,
+"dedicatedAccountHostOnlyFlag" : false
+}

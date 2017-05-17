@@ -1,0 +1,6 @@
+{
+	"arrayTypeId" : 4,
+	"hardDrives" : [2,3,4,5,6],
+	"arraySize" : 24000,
+	"partitions" : [{"isGrow" : "True", "name" : "/metadata", "size" : "24000"}]
+}

@@ -1,0 +1,7 @@
+localRepo
+tmp/
+dist/
+logs/
+work/
+keys/
+*.pyc
